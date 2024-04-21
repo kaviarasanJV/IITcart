@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { createContext } from "react";
+import { createContext,useState, useRef , useEffect} from "react";
 import Carts from "./Carts";
 import Cart from "./Cart";
 export const cartContext = createContext(null);
@@ -97,9 +97,24 @@ function App() {
       }
     ]
   });
+  const [subtotal, setSubtotal] = useState();
+  const totalRef = useRef(0);
+
+  const addToTotal = (value) => {
+    console.log(value);
+    totalRef.current += value;
+  };
+  const subtractFromTotal = (value) => {
+    console.log(value);
+    totalRef.current -= value;
+  };
+  const getTotal = () => {
+    return totalRef.current;
+  };
+ 
   return (
     <div className="App">
-      <cartContext.Provider value={[products, setProducts]}>
+      <cartContext.Provider value={{products, setProducts, subtotal, setSubtotal, addToTotal, getTotal, subtractFromTotal}}>
         <Carts />
         <Cart />
       </cartContext.Provider>
